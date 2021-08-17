@@ -1,0 +1,5 @@
+*.pdf
+notebook_exp
+data
+.venv
+.vscode/
