@@ -1,0 +1,9 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "info": {
+        "total_rows_uploaded": 123,
+        "total_rows_w_na": 20,
+        "total_rows_added_to_db": 103
+    }
+}

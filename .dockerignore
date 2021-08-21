@@ -1,0 +1,11 @@
+*.pdf
+notebook_exp
+notebook
+data
+.venv
+.vscode/
+model/lgbm
+model/paraphrase_tinybert
+env/api-service.env
+env/postgres.env
+__pycache__
