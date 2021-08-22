@@ -67,9 +67,10 @@ In addition to the FastAPI Swagger UI, the OpenAPI documentation can be found in
 
 # 4. Others Thoughts
 ## 4.1 Maintainability & Extensibility
-In this project, I attempted to modularize the code base, and as much as possible, use similar folder structure to organize the web service.
 
 ### 4.1.1 Consistent Folder Structure
+In this project, I attempted to modularize the code base, and as much as possible, use similar folder structure to organize the web service.
+
 There are currently 3 resources (classifier, genre, healthcheck). Each resource:
 - Is organised into a separate folder & added to the main app using `api_router`
 - Has a `schema` folder which stores the Pydantic models for input & output validation (generated from sample responses, which are stored in `schema/response_json`)
