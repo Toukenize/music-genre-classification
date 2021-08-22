@@ -9,6 +9,11 @@ api_router = APIRouter(
 
 @api_router.get("/healthcheck")
 def healthcheck():
+    """
+    **Description**
+
+    Healthcheck to confirm the service endpoint is running.
+    """
     response = {
         "status": "success",
         "version": settings.API_VERSION,

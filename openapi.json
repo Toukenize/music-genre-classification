@@ -1,0 +1,380 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/healthcheck": {
+            "get": {
+                "summary": "Healthcheck",
+                "description": "**Description**\n\nHealthcheck to confirm the service endpoint is running.",
+                "operationId": "healthcheck_api_v1_healthcheck_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/predict-batch": {
+            "post": {
+                "summary": "Predict Batch Api",
+                "description": "**Description:**\n\nGiven a csv file, predict the data rows' genre and upload the predictions\nto postgres database.\n\n**Request Body**\n- **csv_file**: Data file containing all required columns, in the correct\n    data format\n\n**Response Structure**\n- **info**\n    - **total_rows_uploaded** - The total number of rows detected in the\n        uploaded csv.\n    - **total_rows_w_na** - The number of rows with at least 1 NA field,\n        which are dropped before the prediction.\n    - **total_rows_added_to_db** - The total number of rows upserted to\n        database. (Note that entries which already exist in the database\n        will be updated).\n\n**Backend Logic**\n1. Validate dataframe (field, order, data type).\n2. Process dataframe & generate features (including the use of individual\n    model's vectorizer).\n3. Generate predictions followed by simple averaging of the logits across\n    models (lightgbm with the same parameter, trained using different\n    fold of data).\n4. Predictions (trackid, title and predicted genre) are upserted to\n    database.",
+                "operationId": "predict_batch_api_api_v1_predict_batch_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Id",
+                            "type": "string"
+                        },
+                        "name": "client-id",
+                        "in": "header"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Secret",
+                            "type": "string"
+                        },
+                        "name": "client-secret",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_predict_batch_api_api_v1_predict_batch_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/src__classifier__schema__predict_batch__Model"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/genre/title-list": {
+            "get": {
+                "summary": "Title List Api",
+                "description": "**Description:**\n\nGet the list of titles that is classified under the selected genre.\n\n**Request Body**\n- **genre**: The genre of interest. Must be one of [\"metal\", \"folk\",\n    \"jazz and blues\", \"soul and reggae\", \"classic pop and rock\", \"punk\",\n    \"dance and electronica\", \"pop\"].\n\n**Response Structure**\n- **genre** - The genre queried.\n- **titles** - The list of sorted titles associated with the queried genre.",
+                "operationId": "title_list_api_api_v1_genre_title_list_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Genre"
+                        },
+                        "name": "genre",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Id",
+                            "type": "string"
+                        },
+                        "name": "client-id",
+                        "in": "header"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Secret",
+                            "type": "string"
+                        },
+                        "name": "client-secret",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/src__genre__schema__title_list__Model"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/genre/list": {
+            "get": {
+                "summary": "Genre List Api",
+                "description": "**Description:**\n\nGet the list of genres available in the database.\n\n**Response Structure**\n- **genre** - The full list of genre available in the database.",
+                "operationId": "genre_list_api_api_v1_genre_list_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Id",
+                            "type": "string"
+                        },
+                        "name": "client-id",
+                        "in": "header"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client-Secret",
+                            "type": "string"
+                        },
+                        "name": "client-secret",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/src__genre__schema__genre_list__Model"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "Index",
+                "operationId": "index__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_predict_batch_api_api_v1_predict_batch_post": {
+                "title": "Body_predict_batch_api_api_v1_predict_batch_post",
+                "required": [
+                    "csv_file"
+                ],
+                "type": "object",
+                "properties": {
+                    "csv_file": {
+                        "title": "Csv File",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
+            "Genre": {
+                "title": "Genre",
+                "enum": [
+                    "metal",
+                    "folk",
+                    "jazz and blues",
+                    "soul and reggae",
+                    "classic pop and rock",
+                    "punk",
+                    "dance and electronica",
+                    "pop"
+                ],
+                "description": "An enumeration."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Info": {
+                "title": "Info",
+                "required": [
+                    "total_rows_uploaded",
+                    "total_rows_w_na",
+                    "total_rows_added_to_db"
+                ],
+                "type": "object",
+                "properties": {
+                    "total_rows_uploaded": {
+                        "title": "Total Rows Uploaded",
+                        "type": "integer"
+                    },
+                    "total_rows_w_na": {
+                        "title": "Total Rows W Na",
+                        "type": "integer"
+                    },
+                    "total_rows_added_to_db": {
+                        "title": "Total Rows Added To Db",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "src__classifier__schema__predict_batch__Model": {
+                "title": "Model",
+                "required": [
+                    "status",
+                    "status_code",
+                    "info"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "title": "Status",
+                        "type": "string"
+                    },
+                    "status_code": {
+                        "title": "Status Code",
+                        "type": "integer"
+                    },
+                    "info": {
+                        "$ref": "#/components/schemas/Info"
+                    }
+                }
+            },
+            "src__genre__schema__genre_list__Model": {
+                "title": "Model",
+                "required": [
+                    "status",
+                    "status_code",
+                    "genre"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "title": "Status",
+                        "type": "string"
+                    },
+                    "status_code": {
+                        "title": "Status Code",
+                        "type": "integer"
+                    },
+                    "genre": {
+                        "title": "Genre",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "src__genre__schema__title_list__Model": {
+                "title": "Model",
+                "required": [
+                    "status",
+                    "status_code",
+                    "genre",
+                    "titles"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "title": "Status",
+                        "type": "string"
+                    },
+                    "status_code": {
+                        "title": "Status Code",
+                        "type": "integer"
+                    },
+                    "genre": {
+                        "title": "Genre",
+                        "type": "string"
+                    },
+                    "titles": {
+                        "title": "Titles",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

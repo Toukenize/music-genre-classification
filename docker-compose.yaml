@@ -14,3 +14,6 @@ services:
       - env/postgres.env
     ports:
       - "5432:5432"
+    volumes:
+      # https://gist.github.com/onjin/2dd3cc52ef79069de1faa2dfd456c945
+      - ./sql/music_genre_tab.sql:/docker-entrypoint-initdb.d/music_genre_tab.sql

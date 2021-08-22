@@ -4,7 +4,5 @@ data
 .venv
 .vscode/
 model
-env/api-service.env
-env/postgres.env
-env/api-service-local.env
 __pycache__
+.env

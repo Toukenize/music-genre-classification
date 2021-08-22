@@ -9,7 +9,7 @@ import src
 IS_LOCAL = os.getenv('IS_LOCAL', True)
 
 if IS_LOCAL:
-    load_dotenv('../env/api-service.env')
+    load_dotenv()
 
 
 class Settings(BaseSettings):

@@ -9,6 +9,7 @@ class ErrorCode(str, Enum):
     postgres_error = "postgres_error"
     unhandled_error = "unhandled_error"
     file_type_error = "file_type_error"
+    schema_error = 'input_data_schema_error'
 
 
 class Error(BaseModel):
@@ -18,11 +19,18 @@ class Error(BaseModel):
     def to_response(self, status_code):
         return JSONResponse(
             status_code=status_code,
-            content=self.dict()
+            content={
+                "status_code": status_code,
+                "info": self.dict()
+            }
         )
 
 
 class UnauthorizedException(Exception):
+    pass
+
+
+class DataSchemaException(Exception):
     pass
 
 

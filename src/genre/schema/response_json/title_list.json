@@ -1,0 +1,9 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "genre": "jazz",
+    "titles": [
+        "song title 1",
+        "song title 2"
+    ]
+}

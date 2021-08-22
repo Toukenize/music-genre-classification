@@ -1,10 +1,14 @@
+import logging
 import re
 from typing import List, Tuple
 
 import pandas as pd
 from unidecode import unidecode
 
+from ..errors import DataSchemaException
+from ..utils import format_str
 from .constants import stopwords
+from .schema.input_data import df_schema
 
 
 def count_na_rows_and_drop(
@@ -75,3 +79,21 @@ def text_processing(txt: str, stopwords: List = None) -> str:
         txt = re.sub('\s+', ' ', txt).strip()
 
     return txt
+
+
+def validate_df(df: pd.DataFrame) -> pd.DataFrame:
+
+    try:
+        df = df_schema.validate(df)
+        return df
+
+    except Exception as e:
+        logging.error(e)
+        message = format_str(
+            """
+            Input data did not pass validation check. Make sure
+            all the required data fields are present and are of the
+            right data type.
+            """
+        ) + ' Stack trace : ' + str(e)
+        raise DataSchemaException(message)

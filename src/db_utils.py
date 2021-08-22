@@ -13,7 +13,6 @@ def upsert_df_to_db(
         upsert_col: str,
         table_name: str):
 
-    # TBD: Update query using SQLAlchemy API, to eliminate the use of f-string
     if len(df) == 0:
         logging.info(
             f"Tried to upsert a empty dataframe of shape: {df.shape}")

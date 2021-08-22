@@ -1,0 +1,9 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "genre": [
+        "jazz",
+        "pop",
+        "punk"
+    ]
+}

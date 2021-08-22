@@ -4,12 +4,14 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import RedirectResponse
 
 from config import settings
-from errors import Error, ErrorCode, FileTypeException, UnauthorizedException
-from src import classifier, healthcheck
+from errors import (DataSchemaException, Error, ErrorCode, FileTypeException,
+                    UnauthorizedException)
+from src import classifier, genre, healthcheck
 
 app = FastAPI()
 app.include_router(healthcheck.router.api_router)
 app.include_router(classifier.router.api_router)
+app.include_router(genre.router.api_router)
 
 
 @app.get('/')
@@ -24,7 +26,7 @@ def unauthorized_exception(_request: Request, error: UnauthorizedException):
         errorCode=ErrorCode.unauthorized
     )
     logging.error(f'{ErrorCode.unauthorized}; {str(error)}')
-    return error.to_response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return error.to_response(status.HTTP_401_UNAUTHORIZED)
 
 
 @app.exception_handler(FileTypeException)
@@ -40,9 +42,21 @@ def file_type_exception(_request: Request, error: FileTypeException):
 
 @app.exception_handler(Exception)
 def base_exception(_request: Request, error: Exception):
+
     error = Error(
         message=str(error),
         errorCode=ErrorCode.unhandled_error
     )
     logging.error(f'{ErrorCode.unhandled_error}; {str(error)}')
+    return error.to_response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@app.exception_handler(DataSchemaException)
+def data_schema_exception(_request: Request, error: DataSchemaException):
+    error = Error(
+        message=str(error),
+        error=ErrorCode.schema_error,
+
+    )
+    logging.error(f'{ErrorCode.schema_error}; {str(error)}')
     return error.to_response(status.HTTP_500_INTERNAL_SERVER_ERROR)
