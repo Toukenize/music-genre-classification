@@ -1,6 +1,6 @@
 # 1. Intro
 
-In this project, we are given a set of songs, their metadata (check out `data/README` for data details provided by the author) and their genres (target label). This is a multi-class classification task, in which we are required to predict the song's genre, given their metadata (check out `data/README` provided by the author OR my analytics notebook `notebook/exploratory_data_analysis.ipynb` for more information).
+In this project, we are dealing with a multi-class classification problem where we are given a set of songs, their metadata ((check out `data/README` provided by the author OR my analytics notebook `notebook/exploratory_data_analysis.ipynb` for more information)) and their genres (target label).
 
 A simple 4-Fold LightGBM model with selected & engineered features was trained (cross validation test accuracy of ~69.6%), and a simple web service with the following APIs was build:
 1. [POST] classifier/predict-batch : Classify input data (in the form of .csv files) and persist the song's trackid, title and genre (prediction results) to the database.
