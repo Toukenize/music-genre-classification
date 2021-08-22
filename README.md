@@ -10,6 +10,10 @@ A simple 4-Fold LightGBM model with selected & engineered features was trained, 
 Demo video of the web service:
 
 
+https://user-images.githubusercontent.com/43180977/130363067-3ee13b7a-4f80-42a6-810a-789264d3848b.mov
+
+
+
 # 2. Setups
 
 ## 2.1 Web Service & Database (Postgres)
