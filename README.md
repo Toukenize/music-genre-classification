@@ -95,3 +95,5 @@ These are handled using `env/*.env` files, so that we can easily switch between 
 With the `Dockerfile`, an image can be easily built and deployed on cloud services (e.g. AWS Elastic Beanstalk using image stored on AWS ECR), which then enables configurable automatic load-balancing & scaling.
 
 In terms of database, we can also easily swap out the better-spec database (e.g. AWS RDS Postgres w mutli-AZ deployment for enhanced data durability & availability) with the existing one, by simply changing the `POSTGRES_URI` in `/env/api-service.env`.
+
+Lastly, in terms of scaling the web service securely in production environment, the `client-id` and `client-secret` are the required authentication headers for all the APIs (except healthcheck). These can be set to rotate on a scheduled interval, using something like AWS Secrets Managers to better secure the APIs.
