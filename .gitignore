@@ -1,8 +1,7 @@
 *.pdf
 notebook_exp
-data
 .venv
 .vscode/
-model
+model/paraphrase_tinybert
 __pycache__
 .env

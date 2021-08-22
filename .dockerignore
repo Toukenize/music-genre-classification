@@ -4,8 +4,6 @@ notebook
 data
 .venv
 .vscode/
-model/lgbm
 model/paraphrase_tinybert
-env/api-service.env
-env/postgres.env
+*.env
 __pycache__
