@@ -65,10 +65,9 @@ In each section, I plotted the features, explored their characteristics across g
 ## 3.2 OpenAPI
 In addition to the FastAPI Swagger UI, the OpenAPI documentation can be found in `openapi.json` too. This can be imported to Postman or [Swagger Editor](https://editor.swagger.io/) directly
 
-# 4. Others Thoughts
-## 4.1 Maintainability & Extensibility
+# 4. Others Thoughts on Maintainability & Extensibility
 
-### 4.1.1 Consistent Folder Structure
+## 4.1 Consistent Folder Structure
 In this project, I attempted to modularize the code base, and as much as possible, use similar folder structure to organize the web service.
 
 There are currently 3 resources (classifier, genre, healthcheck). Each resource:
@@ -89,10 +88,10 @@ src/genre
     └── genre_list.py        # Model for /genre/list API
 ```
 
-### 4.1.2 Handling Environment Variables
+## 4.2 Handling Environment Variables
 These are handled using `env/*.env` files, so that we can easily switch between local/ staging/ production environment, just by changing & deploying the right `.env` files. These can also be modified into `configmap.yaml` / `secrets.yaml` easily, if a managed Kubernetes cluster is used in staging/ production.
 
-### 4.1.3 Scaling the Service
+## 4.3 Scaling the Service
 With the `Dockerfile`, an image can be easily built and deployed on cloud services (e.g. AWS Elastic Beanstalk using image stored on AWS ECR), which then enables configurable automatic load-balancing & scaling.
 
 In terms of database, we can also easily swap out the better-spec database (e.g. AWS RDS Postgres w mutli-AZ deployment for enhanced data durability & availability) with the existing one, by simply changing the `POSTGRES_URI` in `/env/api-service.env`.
