@@ -1,6 +1,6 @@
 # 1. Intro
 
-In this project, we are dealing with a multi-class classification problem where we are given a set of songs, their metadata ((check out `data/README` provided by the author OR my analytics notebook `notebook/exploratory_data_analysis.ipynb` for more information)) and their genres (target label).
+In this project, we are dealing with a multi-class classification problem where we are given a set of songs, their metadata (check out `data/README` provided by the author OR my analytics notebook `notebook/exploratory_data_analysis.ipynb` for more information) and their genres (target label).
 
 A simple 4-Fold LightGBM model with selected & engineered features was trained (cross validation test accuracy of ~69.6%), and a simple web service with the following APIs was build:
 1. [POST] classifier/predict-batch : Classify input data (in the form of .csv files) and persist the song's trackid, title and genre (prediction results) to the database.
@@ -48,7 +48,7 @@ To confirm that the web services work (especially if you made changes to the log
 1. Make sure the database container is up (otherwise, repeat `Section 2.1`).
 2. Make a new `.env` file in project root, and copy the contents from `env/api-service.env` to it, with the following changes:
     - IS_LOCAL=true
-    - MODEL_PATH=/<your-full-home-path>/<this-project>/model/deployment/
+    - MODEL_PATH=/**change-this-to-wherever-the-repo-is**/model/deployment/
 3. Change directory to project root, run `pytest`.
 4. Check if all tests passed, otherwise, figure out why.
 
