@@ -33,7 +33,7 @@ https://user-images.githubusercontent.com/43180977/130363067-3ee13b7a-4f80-42a6-
 2. Clone this repo, change directory to project root `cd <wherever-this-repo-is>`.
 3. Install project dependencies `poetry install`
 4. Activate poetry environment `poetry shell`
-5. Install Jupyter kernel `python ipykernel -m install --user --name "music-clf" --display-name "music-clf"`
+5. Install Jupyter kernel `python -m ipykernel install --user --name "music-clf" --display-name "music-clf"`
 6. Activate jupyter notebook `jupyter notebook`
 7. Navigate to the notebook folder and select the notebook to run interactively (remember to change the kernel to `music-clf` created in `Step 5`)
 
